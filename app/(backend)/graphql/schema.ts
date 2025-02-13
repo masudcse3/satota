@@ -27,8 +27,6 @@ export const typeDefs = gql`
     phone: String!
     address: String!
     type: CustomerType!
-    orders: [Order!]!
-    payment: [Payment!]!
     due: Float!
     createdAt: String!
     updatedAt: String!
