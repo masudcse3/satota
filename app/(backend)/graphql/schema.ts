@@ -2,67 +2,11 @@
 import { gql } from "graphql-tag";
 export const typeDefs = gql`
   # Enums
-  enum Unit {
-    Kg
-    Bag
-  }
-
   enum CustomerType {
     Retail
     Wholesale
   }
 
-  enum PaymentMethod {
-    Cash
-    Check
-    BankTransfer
-    MobileBank
-  }
-
-  enum Source {
-    Mill
-    Supplier
-    LC
-    Sale
-  }
-  enum ActionType {
-    STOCK_IN
-    STOCK_OUT
-  }
-  #inputs
-  input CategoryInput {
-    name: String!
-  }
-
-  input ProductInput {
-    name: String!
-    weight: Float!
-    unit: Unit!
-    price: Float!
-    categoryId: Int!
-  }
-  input GodownInput {
-    name: String!
-    address: String
-  }
-  input StockHistoryInput {
-    productId: Int!
-    godownId: Int!
-    source: Source!
-    actionType: ActionType!
-    quantity: Int!
-  }
-  input CartInput {
-    productId: Int!
-    godownId: Int!
-    quantity: Int!
-    price: Float!
-  }
-  input PaymentInput {
-    customerId: Int!
-    paymentMethod: PaymentMethod!
-    amount: Float!
-  }
   input FilterInput {
     page: Int = 1
     limit: Int = 20
