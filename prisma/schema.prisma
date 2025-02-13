@@ -1,0 +1,156 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id Int  @id @default(autoincrement())
+  name String
+  products Product[]
+  createdAt DateTime @default(now())
+   updatedAt DateTime  @updatedAt
+}
+model Product {
+  id Int    @id @default(autoincrement())
+  name String @unique
+  weight Float
+  unit Unit @default(Kg)
+  price Float
+  category Category @relation(fields: [categoryId], references: [id])
+  categoryId Int 
+  stock Stock[]
+  stockHistory StockHistory[]
+  cart Cart[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime  @updatedAt
+}
+enum Unit {
+  Kg
+  Bag
+}
+model Manager {
+  id Int    @id @default(autoincrement())
+  name String
+  phone String @unique
+  address String
+  password String
+  orders Order[]
+  createdAt DateTime @default(now())
+   updatedAt DateTime  @updatedAt
+}
+model Customer {
+  id Int    @id @default(autoincrement())
+  name String
+  phone String @unique
+  address String
+  type CustomerType @default(Retail)
+  orders Order[]
+  payment Payment[]
+  due Float @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime  @updatedAt
+}
+enum CustomerType {
+  Retail
+  Wholesale
+}
+model Order {
+  id Int       @id @default(autoincrement())
+  customer Customer @relation(fields: [customerId], references: [id])
+  customerId Int
+  total Float
+  paid Float
+  discount Float @default(0)
+  due Float 
+  paymentMethod PaymentMethod @default(Cash)
+  cart Cart[]
+  orderedBy Manager @relation(fields: [managerId], references: [id])
+  managerId Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime  @updatedAt
+}
+enum PaymentMethod {
+  Cash
+  Check
+  BankTransfer
+  MobileBank
+}
+model Cart {
+  id Int    @id @default(autoincrement())
+  orderId Int
+  productId Int
+  godownId Int
+  quantity Int
+  price Float
+  totalPrice Float
+  product Product @relation(fields: [productId], references: [id])
+  order Order? @relation(fields: [orderId], references: [id])
+  godown Godown @relation(fields: [godownId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime  @updatedAt
+
+  
+}
+model Stock {
+  id          Int       @id @default(autoincrement())
+  productId   Int       
+  godownId Int
+  quantity    Int @default(0)
+  product     Product   @relation(fields: [productId], references: [id])
+  godown Godown @relation(fields: [godownId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime   @updatedAt
+  @@unique([productId, godownId])
+}
+model Godown {
+  id Int @id @default(autoincrement())
+  name String 
+  address String?
+  stocks Stock[]
+  stockHistory StockHistory[]
+  cart Cart[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model StockHistory {
+  id           Int       @id @default(autoincrement())
+  productId     Int
+  godownId Int     
+  quantity    Int
+  source      Source @default(Sale)
+  actionType ActionType @default(STOCK_OUT)
+  product Product @relation(fields: [productId], references: [id])
+  godown Godown @relation(fields: [godownId], references: [id])
+  timestamp DateTime @default(now())
+@@index([productId, godownId])
+}
+enum ActionType {
+  STOCK_IN
+  STOCK_OUT
+}
+enum Source {
+  Mill
+  Supplier
+  Sale
+  LC
+}
+model Payment {
+  id           Int       @id @default(autoincrement())
+  customerId Int
+  customer Customer @relation(fields: [customerId], references: [id])
+  amount      Float
+  paymentMethod         PaymentMethod @default(Cash)
+  createdAt DateTime @default(now())
+  updatedAt DateTime  @updatedAt
+}

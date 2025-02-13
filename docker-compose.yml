@@ -1,0 +1,20 @@
+# @format
+
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres # Specify the desired PostgreSQL version
+    container_name: satota-postgres-db
+    restart: on-failure
+    ports:
+      - "5411:5432" # Map local port 5411 to the container's default PostgreSQL port (5432)
+    environment:
+      POSTGRES_USER: admin # Replace with your desired username
+      POSTGRES_PASSWORD: admin # Replace with your desired password
+      POSTGRES_DB: satota # Replace with your desired database name
+    volumes:
+      - postgres_data:/var/lib/postgresql/data # Persist database data
+
+volumes:
+  postgres_data:
