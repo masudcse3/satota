@@ -8,7 +8,7 @@ services:
     container_name: satota-postgres-db
     restart: on-failure
     ports:
-      - "5411:5432" # Map local port 5411 to the container's default PostgreSQL port (5432)
+      - "5412:5432" # Map local port 5411 to the container's default PostgreSQL port (5432)
     environment:
       POSTGRES_USER: admin # Replace with your desired username
       POSTGRES_PASSWORD: admin # Replace with your desired password
