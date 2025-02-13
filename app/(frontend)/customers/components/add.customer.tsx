@@ -33,13 +33,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { CREATE_CUSTOMER } from "@/app/(frontend)/mutation/customer.mutation";
-import { useMutation } from "@apollo/client";
+import { createANewCustomer } from "@/app/(frontend)/mutation/customer.mutation";
 
 const AddCustomer = () => {
   const { toast } = useToast();
   const [open, setOpen] = useState(false); // Control Dialog state
-  const [createCustomer] = useMutation(CREATE_CUSTOMER);
+
   const form = useForm<z.infer<typeof customerValidator>>({
     resolver: zodResolver(customerValidator),
     defaultValues: {
@@ -52,21 +51,14 @@ const AddCustomer = () => {
 
   const handleSubmit = async (formData: z.infer<typeof customerValidator>) => {
     try {
-      // const { message } = await createANewCustomer({
-      //   name: formData.name,
-      //   phone: formData.phone,
-      //   address: formData.address,
-      //   type: formData.type,
-      // });
-      createCustomer({
-        variables: {
-          name: formData.name,
-          phone: formData.phone,
-          address: formData.address,
-          type: formData.type,
-        },
+      const { message } = await createANewCustomer({
+        name: formData.name,
+        phone: formData.phone,
+        address: formData.address,
+        type: formData.type,
       });
-      toast({ description: "Customer created Successfully." });
+
+      toast({ description: message });
       setOpen(false); // Close dialog on success
       form.reset(); // Reset form after submission
       // router.push(`/customers?q=${formData.name}`); // Redirect to customers page after success

@@ -9,7 +9,6 @@ import { Separator } from "@/components/ui/separator";
 import Butterfly from "../icons/butterfly";
 import ChangeTheme from "./change-theme";
 import CollapseSidebar from "./collapseSidebar";
-import UserStatus from "./user-status";
 
 const Header = () => {
   return (
@@ -39,7 +38,6 @@ const Header = () => {
         <div className="flex items-center gap-4">
           <ChangeTheme />
           <Separator orientation="vertical" className="h-8" />
-          <UserStatus />
         </div>
       </div>
     </header>

@@ -4,13 +4,7 @@
 import { useSidebarCollapse } from "@/app/(frontend)/providers/collapse-sidebar";
 import clsx from "clsx";
 
-import {
-  Home,
-  SquareActivity,
-  Users,
-  PackageSearch,
-  Weight,
-} from "lucide-react";
+import { Home, Users } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -25,10 +19,7 @@ type SidebarItem = {
 // Define the sidebar items
 const sidebarItems: SidebarItem[] = [
   { id: "dashboard", icon: Home, label: "Dashboard", href: "/" },
-  { id: "sales", icon: Weight, label: "Sales", href: "/sales" },
   { id: "customers", icon: Users, label: "Customers", href: "/customers" },
-  { id: "stocks", icon: SquareActivity, label: "Stocks", href: "/stocks" },
-  { id: "products", icon: PackageSearch, label: "Products", href: "/products" },
 ];
 
 const Sidebar: React.FC = () => {

@@ -9,9 +9,7 @@ import { SidebarCollapseProvider } from "@/app/(frontend)/providers/collapse-sid
 import Sidebar from "@/components/global/sidebar";
 
 import { Toaster } from "@/components/ui/toaster";
-import SessionProviderWrapper from "./providers/session.provider";
 
-import ApolloProviderWrapper from "./providers/ApolloProviderWrapper";
 const inter = Inter({
   subsets: ["latin"],
 });
@@ -28,20 +26,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className}  antialiased`}>
-        <SessionProviderWrapper>
-          <ThemeProvider attribute="class" defaultTheme="dark">
-            <SidebarCollapseProvider>
-              <ApolloProviderWrapper>
-                <Header />
-                <div className="flex">
-                  <Sidebar />
+        <ThemeProvider attribute="class" defaultTheme="dark">
+          <SidebarCollapseProvider>
+            <Header />
+            <div className="flex">
+              <Sidebar />
 
-                  <main className="p-5 ml-[16rem] w-full">{children}</main>
-                </div>
-              </ApolloProviderWrapper>
-            </SidebarCollapseProvider>
-          </ThemeProvider>
-        </SessionProviderWrapper>
+              <main className="p-5 ml-[16rem] w-full">{children}</main>
+            </div>
+          </SidebarCollapseProvider>
+        </ThemeProvider>
         <Toaster />
       </body>
     </html>
